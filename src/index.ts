@@ -1,13 +1,19 @@
-import express, {Express, Request, Response} from 'express'
+import express, { Express, Request, Response } from "express";
+import { PORT } from "./secrets";
+import rootRouter from "./Routes";
+import { PrismaClient } from "@prisma/client";
+import { errorMiddleware } from "./Middlewares/errors";
 
-const app = express()
+const app: Express = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-  
-})
+app.use(express.json());
 
+app.use("/api", rootRouter);
+app.use(errorMiddleware)
 
-app.listen(5000, () => {
-  console.log('Example app listening on port 5000!')
-})
+export const prismaClient = new PrismaClient({
+  log: ["query", "info", "warn", "error"],
+});
+app.listen(PORT, () => {
+  console.log("Example app listening on port 4000!");
+});
