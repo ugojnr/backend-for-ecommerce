@@ -4,7 +4,7 @@ import { validatePost } from "../Middlewares/validationMiddleware";
 
 const postRoutes: Router = Router();
 
-postRoutes.post("/post", createPost);
+postRoutes.post("/post", [...validatePost], createPost);
 postRoutes.get("/post", getPosts);
 
 export default postRoutes;
